@@ -79,6 +79,11 @@ spec:
         env:
         - name: BALENARC_BALENA_URL
           value: {{ .Values.global.hostname }}
+        - name: COOKIE_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: openbalena-remote-cookie
+              key: secret
         - name: HOST_MODE
           value: secure
 

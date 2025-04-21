@@ -265,6 +265,7 @@ remote:
   resources: {}
   nodeSelector:
   tolerations:
+  cookie-secret: ""
   service:
     labels: {}
     annotations: {}
