@@ -421,6 +421,8 @@ helper:
 
 haproxy:
   controller:
+    service:
+      httpPorts: []
     ingressClass: "openbalena-haproxy"
     ingressClassResource:
       enabled: true
