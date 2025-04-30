@@ -1,4 +1,4 @@
-{{- if .Values.builder.arm64.persistence.enabled }}
+{{- if and .Values.builder.arm64.enabled .Values.builder.arm64.persistence.enabled }}
 {{- $pvc := lookup "v1" "PersistentVolumeClaim" .Release.Namespace "builder-arm64-pvc" }}
 {{- if not $pvc }}
 apiVersion: v1

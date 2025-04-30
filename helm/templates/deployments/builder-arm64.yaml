@@ -20,6 +20,8 @@ spec:
   affinity:
     {{- toYaml . | nindent 4 }}
   {{- end }}
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       {{- include "openbalena.selectorLabels" . | nindent 6 }}

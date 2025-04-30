@@ -1,4 +1,4 @@
-{{- if .Values.builder.amd64.persistence.enabled }}
+{{- if and .Values.builder.amd64.enabled .Values.builder.amd64.persistence.enabled }}
 {{- $pvc := lookup "v1" "PersistentVolumeClaim" .Release.Namespace "builder-amd64-pvc" }}
 {{- if not $pvc }}
 apiVersion: v1
@@ -8,7 +8,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/component: builder-amd64
-  {{- if .Values.builder.arm64.persistence.retainOnDelete }}
+  {{- if .Values.builder.amd64.persistence.retainOnDelete }}
   annotations:
     "helm.sh/resource-policy": keep
   {{- end }}
