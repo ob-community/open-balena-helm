@@ -44,6 +44,13 @@ spec:
       {{- with (coalesce .Values.builder.arm64.priorityClassName .Values.global.priorityClassName) }}
       priorityClassName: {{ . | quote }}
       {{- end }}
+      initContainers:
+        - name: binfmt-setup
+          image: tonistiigi/binfmt:latest
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            privileged: true
+          command: ["binfmt", "--install", "all"]
       containers:
       - name: {{ .Chart.Name }}-builder-arm64
         image: {{ .Values.builder.arm64.image.repository }}:{{ .Values.builder.arm64.image.tag }}
