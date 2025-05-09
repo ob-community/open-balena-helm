@@ -79,7 +79,7 @@ spec:
           value: "tcp://{{ .Chart.Name }}-builder-arm64:2375"
         {{- end }}
         - name: DOCKER_BUILDKIT
-          value: "1"
+          value: "0"
         - name: TOKEN_AUTH_BUILDER_TOKEN
           valueFrom:
             secretKeyRef:
