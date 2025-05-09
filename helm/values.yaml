@@ -319,11 +319,14 @@ builder:
   storageClass:
 
   amd64:
-    enabled: true
+    external: false
+    externalHost:
+    externalPort:
+    enabled: false
     replicas: 1
     image:
       repository: docker
-      tag: "27.3.1-dind"
+      tag: "25.0.1-dind"
       pullPolicy: IfNotPresent
 
     labels: {}
@@ -345,11 +348,14 @@ builder:
       # retainOnDelete: true
 
   arm64:
+    external: false
+    externalHost:
+    externalPort:
     enabled: false
     replicas: 1
     image:
       repository: docker
-      tag: "27.3.1-dind"
+      tag: "25.0.1-dind"
       pullPolicy: IfNotPresent
 
     labels: {}
@@ -446,9 +452,9 @@ haproxy:
             acl is_ssl req.ssl_ver 2:3.4
             use_backend {{ .Release.Namespace }}_openbalena-vpn_443 if !is_ssl
             # END::Redirect to openBalena VPN
-      timeout-server: "75s"
-      timeout-server-fin: "75s"
-      timeout-client: "75s"
-      timeout-client-fin: "75s"
+      timeout-server: "90s"
+      timeout-server-fin: "10s"
+      timeout-client: "6h"
+      timeout-client-fin: "10s"
     nodeSelector:
     tolerations:

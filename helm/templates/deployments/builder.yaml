@@ -64,16 +64,22 @@ spec:
           value: "api.{{ .Values.global.hostname }}"
         - name: DELTA_HOST
           value: "delta.{{ .Values.global.hostname }}"
-        {{- if .Values.builder.amd64.enabled }}
+        {{- if .Values.builder.amd64.external }}
+        - name: DOCKER_HOST_AMD64
+          value: "tcp://{{ .Values.builder.amd64.externalHost }}:{{ .Values.builder.amd64.externalPort }}"
+        {{- else if .Values.builder.amd64.enabled }}
         - name: DOCKER_HOST_AMD64
           value: "tcp://{{ .Chart.Name }}-builder-amd64:2375"
         {{- end }}
-        {{- if .Values.builder.arm64.enabled }}
+        {{- if .Values.builder.arm64.external }}
+        - name: DOCKER_HOST_ARM64
+          value: "tcp://{{ .Values.builder.arm64.externalHost }}:{{ .Values.builder.arm64.externalPort }}"
+        {{- else if .Values.builder.arm64.enabled }}
         - name: DOCKER_HOST_ARM64
           value: "tcp://{{ .Chart.Name }}-builder-arm64:2375"
         {{- end }}
         - name: DOCKER_BUILDKIT
-          value: "0"
+          value: "1"
         - name: TOKEN_AUTH_BUILDER_TOKEN
           valueFrom:
             secretKeyRef:

@@ -52,26 +52,22 @@ spec:
             privileged: true
           command: ["binfmt", "--install", "all"]
       containers:
-      - name: {{ .Chart.Name }}-builder-amd64
-        image: {{ .Values.builder.amd64.image.repository }}:{{ .Values.builder.amd64.image.tag }}
-        imagePullPolicy: {{ .Values.builder.amd64.image.pullPolicy }}
-        {{- with (coalesce .Values.builder.amd64.resources .Values.global.resources) }}
-        resources:
-          {{- toYaml . | nindent 10 }}
-        {{- end }}
-        ports:
-          - name: docker
-            containerPort: 2375
-        securityContext:
-          privileged: true
-          capabilities:
-            add: ["SYS_ADMIN", "SYS_RESOURCE"]
-        env:
-        - name: DOCKER_TLS_CERTDIR
-          value: ""
-        volumeMounts:
-          - name: builder-amd64-storage
-            mountPath: /var/lib/docker
+        - name: {{ .Chart.Name }}-builder-amd64
+          image: {{ .Values.builder.amd64.image.repository }}:{{ .Values.builder.amd64.image.tag }}
+          imagePullPolicy: {{ .Values.builder.amd64.image.pullPolicy }}
+          ports:
+            - name: docker
+              containerPort: 2375
+          securityContext:
+            privileged: true
+            capabilities:
+              add: ["SYS_ADMIN", "SYS_RESOURCE"]
+          env:
+            - name: DOCKER_TLS_CERTDIR
+              value: ""
+          volumeMounts:
+            - name: builder-amd64-storage
+              mountPath: /var/lib/docker
       volumes:
         - name: builder-amd64-storage
           {{- if .Values.builder.amd64.persistence.enabled }}
@@ -80,7 +76,7 @@ spec:
           {{- else }}
           emptyDir: {}
           {{- end }}
-      {{- with .Values.builder.amd64.nodeSelector  }}
+      {{- with .Values.builder.amd64.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
